@@ -118,17 +118,30 @@ namespace MSE
             textBlock7.Text = $"c = {squaredC}";
 
             // Отрисовка полиномов
-            Data3.Clear();
+            double minX = Data1[0].XValue;
+            double maxX = Data1[0].XValue;
             foreach (Axes a in Data1)
             {
-                Data3.Add(new KeyValuePair<double, double>(a.XValue, linearA* a.XValue+ linearB));
+                if (a.XValue < minX)
+                {
+                    minX = a.XValue;
+                }
+                if (a.XValue > maxX)
+                {
+                    maxX = a.XValue;
+                }
+            }
+            Data3.Clear();
+            for (double i = minX-2; i <= maxX+2; i += 0.1)
+            {
+                Data3.Add(new KeyValuePair<double, double>(i, linearA* i+ linearB));
             }
             lineSeries2.DataContext = Data3;
             
             Data4.Clear();
-            foreach (Axes a in Data1)
+            for (double i = minX-2; i <= maxX+2; i += 0.1)
             {
-                Data4.Add(new KeyValuePair<double, double>(a.XValue, squaredA*a.XValue*a.XValue + squaredB * a.XValue + squaredC));
+                Data4.Add(new KeyValuePair<double, double>(i, squaredA*i*i + squaredB *i+ squaredC));
             }
             lineSeries3.DataContext = Data4;
         }
